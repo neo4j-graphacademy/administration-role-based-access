@@ -5,5 +5,15 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {}
   },
   "forwardPorts": [7474, 7687],
-  "onCreateCommand": "until docker info >/dev/null 2>&1; do sleep 1; done && docker compose pull"
+  "portsAttributes": {
+    "7474": { "label": "Neo4j Browser", "onAutoForward": "notify" },
+    "7687": { "label": "Neo4j Bolt", "onAutoForward": "silent" }
+  },
+  "otherPortsAttributes": { "onAutoForward": "silent" },
+  "onCreateCommand": "until docker info >/dev/null 2>&1; do sleep 1; done && docker compose pull && docker compose up -d --wait && cat seed/seed.cypher | docker exec -i neo4j cypher-shell -u neo4j -p neo4j-password",
+  "postStartCommand": "docker compose up -d --wait",
+  "customizations": {
+    "vscode": { "extensions": ["neo4j-extensions.neo4j-for-vscode"] },
+    "codespaces": { "openFiles": ["README.md"] }
+  }
 }
