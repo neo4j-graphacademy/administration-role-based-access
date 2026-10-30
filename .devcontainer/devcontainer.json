@@ -1,0 +1,9 @@
+{
+  "name": "Role-Based Access Control in Neo4j",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+  "forwardPorts": [7474, 7687],
+  "onCreateCommand": "until docker info >/dev/null 2>&1; do sleep 1; done && docker compose pull"
+}
